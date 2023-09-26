@@ -9,7 +9,7 @@ import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private Map<String, Employee> employeeMap;
+    private final Map<String, Employee> employeeMap;
     private static final int MAX_EMPLOYEES = 3;
 
     public EmployeeServiceImpl() {
@@ -17,8 +17,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Map getEmployeeMap() {
-        return Collections.unmodifiableMap(this.employeeMap);
+    public Collection getEmployeeMap() {
+        return Collections.unmodifiableCollection(this.employeeMap.values());
     }
 
     @Override
@@ -26,21 +26,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee(name, surname, department);
         if (!employeeMap.containsKey(employee.getName() + employee.getSurname())) {
             employeeMap.put(employee.getName() + employee.getSurname(), employee);
-        } else {
-            throw new EmployeeAlreadyAdded("Такой сотрудник уже существует");
+            return employee;
         }
-        return employee;
+        throw new EmployeeAlreadyAdded("Такой сотрудник уже существует");
     }
+
 
     @Override
     public Employee removeEmployee(String name, String surname) {
         if (employeeMap.containsKey(name + surname)) {
             employeeMap.remove(name + surname);
-        } else {
-            throw new EmployeeNotFoundException("Сотрудник не найден");
+            return new Employee(name, surname);
         }
-        return new Employee(name, surname);
+        throw new EmployeeNotFoundException("Сотрудник не найден");
     }
+
 
     @Override
     public Employee findEmployee(String name, String surname) {

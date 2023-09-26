@@ -1,6 +1,6 @@
 package skypro.hw2_7.sevice;
 
-import java.util.Map;
+import java.util.Collection;
 
 public interface EmployeeService {
     public Employee addEmployee(String name, String surname, int department);
@@ -11,5 +11,5 @@ public interface EmployeeService {
 
     public String printAllDepartmentsAndNames();
 
-    public Map getEmployeeMap();
+    public Collection getEmployeeMap();
 }
