@@ -14,6 +14,11 @@ public class Employee {
         this.department = department;
     }
 
+    public Employee(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+    }
+
     public String getName() {
         return this.name;
     }

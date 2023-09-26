@@ -1,5 +1,7 @@
 package skypro.hw2_7.sevice;
 
+import java.util.Map;
+
 public interface EmployeeService {
     public Employee addEmployee(String name, String surname, int department);
 
@@ -7,5 +9,7 @@ public interface EmployeeService {
 
     public Employee findEmployee(String name, String surname);
 
-    public void printAllDepartmentsAndNames();
+    public String printAllDepartmentsAndNames();
+
+    public Map getEmployeeMap();
 }

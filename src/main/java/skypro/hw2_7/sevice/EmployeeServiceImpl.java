@@ -1,10 +1,11 @@
 package skypro.hw2_7.sevice;
 
 import org.springframework.stereotype.Service;
-import skypro.hw2_7.excetions.EmployeeAlreadyAdded;
+import skypro.hw2_7.exceptions.EmployeeAlreadyAdded;
+import skypro.hw2_7.exceptions.EmployeeNotFoundException;
 
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -13,6 +14,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     public EmployeeServiceImpl() {
         this.employeeMap = new HashMap<>();
+    }
+
+    @Override
+    public Map getEmployeeMap() {
+        return Collections.unmodifiableMap(this.employeeMap);
     }
 
     @Override
@@ -28,16 +34,35 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee removeEmployee(String name, String surname) {
-        return null;
+        if (employeeMap.containsKey(name + surname)) {
+            employeeMap.remove(name + surname);
+        } else {
+            throw new EmployeeNotFoundException("Сотрудник не найден");
+        }
+        return new Employee(name, surname);
     }
 
     @Override
     public Employee findEmployee(String name, String surname) {
-        return null;
+        if (!employeeMap.containsKey(name + surname)) {
+            throw new EmployeeNotFoundException("Сотрудник не найден");
+        }
+        return new Employee(name, surname);
     }
 
     @Override
-    public void printAllDepartmentsAndNames() {
-
+    public String printAllDepartmentsAndNames() {
+        Iterator<Map.Entry<String, Employee>> iterator = employeeMap.entrySet().iterator();
+        List<String> listOfDepartmentsAndNames = new ArrayList<>();
+        String string = "";
+        while (iterator.hasNext()) {
+            Map.Entry<String, Employee> iteratorEntry = iterator.next();
+            string = "Отдел - " + iteratorEntry.getValue().getDepartment() + " " +
+                    iteratorEntry.getValue().getName() + " " +
+                    iteratorEntry.getValue().getSurname();
+            listOfDepartmentsAndNames.add(string);
+        }
+        return listOfDepartmentsAndNames.toString();
     }
+
 }
