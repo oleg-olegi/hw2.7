@@ -1,6 +1,6 @@
 package skypro.hw2_7.sevice;
 
-import java.util.Optional;
+import java.util.Collection;
 
 public interface DepartmentService {
     //нати сотрудника с мин ЗП по номеру отдела
@@ -10,16 +10,11 @@ public interface DepartmentService {
     public Employee findMaxSalaryByDepartment(int numberOfDepartment);
 
     //сумма затрат на ЗП по отделу
-    public Employee getTotalSalaryCostByDepartment(int department);
+    public int getTotalSalaryCostByDepartment(int department);
 
-    //средняя ЗП по отделу
-    public Employee getAverageSalaryCostByDepartment(int department);
+    //все сотрудники по отделу
+    public Collection<Employee> getAllEmployeesByDepartment(int department);
 
-    //индексация ЗП сотрудников одного отдела
-    public Employee indexSalaryCostByDepartment(int department, int percent);
-
-    //напечатать всех сотрудников отдела - все данные, кроме отдела
-    public Employee printEmployeesInDepartment(int department);
-
-
+    //все сотрудники вцелом
+    public Collection<Employee> getAllEmployees();
 }

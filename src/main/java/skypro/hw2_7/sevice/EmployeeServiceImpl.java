@@ -18,7 +18,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Collection <Employee> getEmployeeMap() {
+    public Collection<Employee> getEmployeeMap() {
         return this.employeeMap.values();
     }
 
@@ -32,7 +32,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         throw new EmployeeAlreadyAdded("Такой сотрудник уже существует");
     }
 
-
     @Override
     public Employee removeEmployee(String name, String surname) {
         if (employeeMap.containsKey(name + surname)) {
@@ -42,7 +41,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         throw new EmployeeNotFoundException("Сотрудник не найден");
     }
 
-
     @Override
     public Employee findEmployee(String name, String surname) {
         if (!employeeMap.containsKey(name + surname)) {
@@ -50,5 +48,4 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return new Employee(name, surname);
     }
-
 }
