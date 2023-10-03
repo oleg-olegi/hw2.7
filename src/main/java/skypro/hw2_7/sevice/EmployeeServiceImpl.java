@@ -10,20 +10,21 @@ import java.util.*;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final Map<String, Employee> employeeMap;
-    private static final int MAX_EMPLOYEES = 3;
+    private static final int MAX_EMPLOYEES = 10;
 
     public EmployeeServiceImpl() {
+
         this.employeeMap = new HashMap<>();
     }
 
     @Override
-    public Collection getEmployeeMap() {
-        return Collections.unmodifiableCollection(this.employeeMap.values());
+    public Collection <Employee> getEmployeeMap() {
+        return this.employeeMap.values();
     }
 
     @Override
-    public Employee addEmployee(String name, String surname, int department) {
-        Employee employee = new Employee(name, surname, department);
+    public Employee addEmployee(String name, String surname, int salary, int department) {
+        Employee employee = new Employee(name, surname, salary, department);
         if (!employeeMap.containsKey(employee.getName() + employee.getSurname())) {
             employeeMap.put(employee.getName() + employee.getSurname(), employee);
             return employee;
@@ -48,21 +49,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeNotFoundException("Сотрудник не найден");
         }
         return new Employee(name, surname);
-    }
-
-    @Override
-    public String printAllDepartmentsAndNames() {
-        Iterator<Map.Entry<String, Employee>> iterator = employeeMap.entrySet().iterator();
-        List<String> listOfDepartmentsAndNames = new ArrayList<>();
-        String string = "";
-        while (iterator.hasNext()) {
-            Map.Entry<String, Employee> iteratorEntry = iterator.next();
-            string = "Отдел - " + iteratorEntry.getValue().getDepartment() + " " +
-                    iteratorEntry.getValue().getName() + " " +
-                    iteratorEntry.getValue().getSurname();
-            listOfDepartmentsAndNames.add(string);
-        }
-        return listOfDepartmentsAndNames.toString();
     }
 
 }
