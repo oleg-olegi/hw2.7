@@ -48,6 +48,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Collection<Employee> getAllEmployees() {
-        return new ArrayList<>(employeeServiceImpl.getEmployeeMap());
+        //тут объект Map<Integer,List<Employee>>
+        Map<Integer, List<Employee>> sortedEmployeesByDepartments =
+                employeeServiceImpl.getEmployeeMap().stream()
+                        .collect(Collectors.groupingBy(Employee::getDepartment));
+        List<Employee> allEmployees = new ArrayList<>();
+        sortedEmployeesByDepartments.entrySet().forEach(e -> allEmployees.addAll(e.getValue()));
+        return allEmployees;
     }
 }

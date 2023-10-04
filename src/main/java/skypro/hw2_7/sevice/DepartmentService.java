@@ -1,6 +1,7 @@
 package skypro.hw2_7.sevice;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface DepartmentService {
     //нати сотрудника с мин ЗП по номеру отдела
