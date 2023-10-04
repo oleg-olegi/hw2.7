@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import skypro.hw2_7.sevice.DepartmentService;
 import skypro.hw2_7.sevice.Employee;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/department")
@@ -33,13 +34,13 @@ public class DepartmentController {
         return departmentService.getTotalSalaryCostByDepartment(departmentID);
     }
 
-    @GetMapping(path = "/all")
-    public Collection<Employee> getAllEmployeesByDepartment(@RequestParam int departmentID) {
+    @GetMapping(path = "/all", params = "departmentID")
+    public Map<Integer, List<Employee>> getAllEmployeesByDepartment(@RequestParam(value = "departmentID") int departmentID) {
         return departmentService.getAllEmployeesByDepartment(departmentID);
     }
 
-   @GetMapping()
-    public Collection<Employee> getAllEmployee() {
+    @GetMapping("all")
+    public Map<Integer, List<Employee>> getAllEmployeesByDepartment() {
         return departmentService.getAllEmployees();
     }
 }

@@ -1,7 +1,7 @@
 package skypro.hw2_7.sevice;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface DepartmentService {
     //нати сотрудника с мин ЗП по номеру отдела
@@ -14,8 +14,8 @@ public interface DepartmentService {
     public int getTotalSalaryCostByDepartment(int department);
 
     //все сотрудники по отделу
-    public Collection<Employee> getAllEmployeesByDepartment(int department);
+    public Map<Integer, List<Employee>> getAllEmployeesByDepartment(int department);
 
     //все сотрудники вцелом
-    public Collection<Employee> getAllEmployees();
+    public Map<Integer, List<Employee>> getAllEmployees();
 }

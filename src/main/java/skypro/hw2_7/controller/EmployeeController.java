@@ -8,15 +8,13 @@ import skypro.hw2_7.sevice.Employee;
 import skypro.hw2_7.sevice.EmployeeService;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/employee")
-public class Controller {
+public class EmployeeController {
     private final EmployeeService employeeService;
 
-    public Controller(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 

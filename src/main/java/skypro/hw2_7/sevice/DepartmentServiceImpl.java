@@ -40,20 +40,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Collection<Employee> getAllEmployeesByDepartment(int department) {
+    public Map<Integer, List<Employee>> getAllEmployeesByDepartment(int department) {
         return employeeServiceImpl.getEmployeeMap().stream()
                 .filter(a -> a.getDepartment() == department)
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(Employee::getDepartment));
     }
 
     @Override
-    public Collection<Employee> getAllEmployees() {
+    public Map<Integer, List<Employee>> getAllEmployees() {
         //тут объект Map<Integer,List<Employee>>
-        Map<Integer, List<Employee>> sortedEmployeesByDepartments =
-                employeeServiceImpl.getEmployeeMap().stream()
-                        .collect(Collectors.groupingBy(Employee::getDepartment));
-        List<Employee> allEmployees = new ArrayList<>();
-        sortedEmployeesByDepartments.entrySet().forEach(e -> allEmployees.addAll(e.getValue()));
-        return allEmployees;
+        return employeeServiceImpl.getEmployeeMap().stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
     }
 }
