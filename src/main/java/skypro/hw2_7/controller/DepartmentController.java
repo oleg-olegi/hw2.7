@@ -1,5 +1,6 @@
 package skypro.hw2_7.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class DepartmentController {
     private final DepartmentService departmentService;
 
+    @Autowired
     public DepartmentController(DepartmentService departmentService) {
         this.departmentService = departmentService;
     }
@@ -35,7 +37,7 @@ public class DepartmentController {
     }
 
     @GetMapping(path = "/all", params = "departmentID")
-    public Map<Integer, List<Employee>> getAllEmployeesByDepartment(@RequestParam(value = "departmentID") int departmentID) {
+    public Map<Integer, List<Employee>> getAllEmployeesByDepartment(@RequestParam int departmentID) {
         return departmentService.getAllEmployeesByDepartment(departmentID);
     }
 

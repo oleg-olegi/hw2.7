@@ -1,9 +1,11 @@
 package skypro.hw2_7.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import skypro.hw2_7.exceptions.NotValidCharacterException;
 import skypro.hw2_7.sevice.Employee;
 import skypro.hw2_7.sevice.EmployeeService;
 
@@ -14,6 +16,8 @@ import java.util.Collection;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
+    @Autowired //нужна ли здесь аннотация, если мы инжектим депенденсы через конструктор
+
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
@@ -21,6 +25,7 @@ public class EmployeeController {
     @GetMapping("/add")
     public Employee addEmployee(@RequestParam String name, @RequestParam String surname, @RequestParam int salary,
                                 @RequestParam int department) {
+        employeeService.isCorrectInp(name, surname);
         return employeeService.addEmployee(name, surname, salary, department);
     }
 
