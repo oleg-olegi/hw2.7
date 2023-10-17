@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void isCorrectInp(String name, String surname) {
-        if (!StringUtils.containsOnly(name + surname, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")) {
+        if (!StringUtils.isAlpha(name+surname)) {
             throw new NotValidCharacterException("Недопустимые символы в имени или фамилии");
         } else {
             StringUtils.capitalize(name);
