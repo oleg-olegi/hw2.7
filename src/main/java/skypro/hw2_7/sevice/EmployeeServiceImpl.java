@@ -56,7 +56,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new Employee(name, surname);
     }
 
-    private void isCorrectInput(String name, String surname) {
+    private void isCorrectInput(String name, String surname) { //почему когда случается ошибка со статусом 400 в
+                                                                // консоли среды разработки нет моего сообщения,
+                                                                // которое я указал в параметрах исключения
         if (!StringUtils.isAlpha(name + surname)) {
             throw new NotValidCharacterException("Недопустимые символы в имени или фамилии");
         }
