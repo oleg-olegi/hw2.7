@@ -25,17 +25,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void isCorrectInp(String name, String surname) {
-        if (!StringUtils.isAlpha(name+surname)) {
-            throw new NotValidCharacterException("Недопустимые символы в имени или фамилии");
-        } else {
-            StringUtils.capitalize(name);
-            StringUtils.capitalize(surname);
-        }
-    }
-
-    @Override
     public Employee addEmployee(String name, String surname, int salary, int department) {
+        isCorrectInput(name, surname);
         Employee employee = new Employee(name, surname, salary, department);
         if (!employeeMap.containsKey(employee.getName() + employee.getSurname())) {
             employeeMap.put(employee.getName() + employee.getSurname(), employee);
@@ -48,6 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee removeEmployee(String name, String surname) {
+        isCorrectInput(name, surname);
         if (employeeMap.containsKey(name + surname)) {
             employeeMap.remove(name + surname);
             return new Employee(name, surname);
@@ -57,9 +49,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findEmployee(String name, String surname) {
+        isCorrectInput(name, surname);
         if (!employeeMap.containsKey(name + surname)) {
             throw new EmployeeNotFoundException("Сотрудник не найден");
         }
         return new Employee(name, surname);
+    }
+
+    private void isCorrectInput(String name, String surname) {
+        if (!StringUtils.isAlpha(name + surname)) {
+            throw new NotValidCharacterException("Недопустимые символы в имени или фамилии");
+        }
     }
 }

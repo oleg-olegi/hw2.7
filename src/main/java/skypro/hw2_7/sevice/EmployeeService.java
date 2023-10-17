@@ -12,6 +12,4 @@ public interface EmployeeService {
     public Employee findEmployee(String name, String surname);
 
     public Collection<Employee> getEmployeeMap();
-
-    public void isCorrectInp(String name, String Surname) throws NotValidCharacterException;
 }
