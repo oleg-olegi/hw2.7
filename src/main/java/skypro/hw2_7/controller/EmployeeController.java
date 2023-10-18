@@ -7,22 +7,21 @@ import org.springframework.web.bind.annotation.RestController;
 import skypro.hw2_7.sevice.Employee;
 import skypro.hw2_7.sevice.EmployeeService;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/employee")
-public class Controller {
+public class EmployeeController {
     private final EmployeeService employeeService;
 
-    public Controller(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping("/add")
-    public Employee addEmployee(@RequestParam String name, @RequestParam String surname,
+    public Employee addEmployee(@RequestParam String name, @RequestParam String surname, @RequestParam int salary,
                                 @RequestParam int department) {
-        return employeeService.addEmployee(name, surname, department);
+        return employeeService.addEmployee(name, surname, salary, department);
     }
 
     @GetMapping("/remove")
@@ -35,13 +34,13 @@ public class Controller {
         return employeeService.findEmployee(name, surname);
     }
 
-    @GetMapping("/departments")
+   /* @GetMapping("/departments")
     public String printDepartmentsAndNames() {
         return employeeService.printAllDepartmentsAndNames();
-    }
+    }*/
 
     @GetMapping()
-    public Map showEmployee() {
+    public Collection showEmployee() {
         return employeeService.getEmployeeMap();
     }
 }

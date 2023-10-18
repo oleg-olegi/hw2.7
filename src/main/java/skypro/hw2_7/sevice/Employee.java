@@ -5,12 +5,14 @@ import java.util.Objects;
 public class Employee {
     private String name;
     private String surname;
+    private int salary;
     private int department;
 
 
-    public Employee(String name, String surname, int department) {
+    public Employee(String name, String surname, int salary, int department) {
         this.name = name;
         this.surname = surname;
+        this.salary = salary;
         this.department = department;
     }
 
@@ -29,6 +31,10 @@ public class Employee {
 
     public int getDepartment() {
         return this.department;
+    }
+
+    public int getSalary() {
+        return this.salary;
     }
 
     public void setName(String name) {
@@ -70,5 +76,6 @@ public class Employee {
         return this.name.equals(employee.name) && this.surname.equals(employee.surname) &&
                 this.department == employee.department;
     }
+
 }
 
