@@ -1,5 +1,7 @@
 package skypro.hw2_7.sevice;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Objects;
 
 public class Employee {
@@ -10,8 +12,8 @@ public class Employee {
 
 
     public Employee(String name, String surname, int salary, int department) {
-        this.name = name;
-        this.surname = surname;
+        this.name = StringUtils.capitalize(name.toLowerCase());
+        this.surname = StringUtils.capitalize(surname.toLowerCase());
         this.salary = salary;
         this.department = department;
     }
