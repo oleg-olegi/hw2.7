@@ -13,7 +13,7 @@ import java.util.*;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final Map<String, Employee> employeeMap;
-    private static final int MAX_EMPLOYEES = 10;
+    public static final int MAX_EMPLOYEES = 3;
 
     public EmployeeServiceImpl() {
         this.employeeMap = new HashMap<>();
@@ -23,17 +23,33 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Collection<Employee> getEmployeeMap() {
         return this.employeeMap.values();
     }
-
+//не понимаю почему в закомментированном коде ошибка на макс количество не выбрасывается
+    /*  @Override
+      public Employee addEmployee(String name, String surname, int salary, int department) {
+          isCorrectInput(name, surname);
+          if (employeeMap.size() > MAX_EMPLOYEES) {
+              throw new MaximumEmployeesException("Максимальное количество сотрудников");
+          }
+          Employee employee = new Employee(name, surname, salary, department);
+          if (!employeeMap.containsKey(employee.getName() + employee.getSurname()) && employeeMap.size() < MAX_EMPLOYEES) {
+              employeeMap.put(employee.getName() + employee.getSurname(), employee);
+              return employee;
+          }
+          throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
+      }*/
     @Override
     public Employee addEmployee(String name, String surname, int salary, int department) {
         isCorrectInput(name, surname);
+
+        if (employeeMap.size() >= MAX_EMPLOYEES) {
+            throw new MaximumEmployeesException("Максимальное количество сотрудников");
+        }
         Employee employee = new Employee(name, surname, salary, department);
         if (!employeeMap.containsKey(employee.getName() + employee.getSurname())) {
             employeeMap.put(employee.getName() + employee.getSurname(), employee);
             return employee;
-        } else if (employeeMap.size() > MAX_EMPLOYEES) {
-            throw new MaximumEmployeesException("Максимальное количество сотрудников");
         }
+
         throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует");
     }
 
@@ -57,8 +73,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private void isCorrectInput(String name, String surname) { //почему когда случается ошибка со статусом 400 в
-                                                                // консоли среды разработки нет моего сообщения,
-                                                                // которое я указал в параметрах исключения
+        // консоли среды разработки нет моего сообщения,
+        // которое я указал в параметрах исключения
         if (!StringUtils.isAlpha(name + surname)) {
             throw new NotValidCharacterException("Недопустимые символы в имени или фамилии");
         }
