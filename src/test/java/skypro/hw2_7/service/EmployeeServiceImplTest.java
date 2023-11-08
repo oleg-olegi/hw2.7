@@ -87,5 +87,26 @@ public class EmployeeServiceImplTest {
         assertThrows(EmployeeNotFoundException.class, () ->
                 employeeService.removeEmployee("James", "Hatfield"));
     }
+
+    @Test
+    void testFindEmployee() {
+        String name = "Bill";
+        String surname = "Chipper";
+        int salary = 100500;
+        int department = 13;
+
+        Employee addedEmployee = employeeService.addEmployee(name, surname, salary, department);
+        Employee foundedEmployee = employeeService.findEmployee(name, surname);
+
+        assertNotNull(foundedEmployee);
+        assertEquals(name, foundedEmployee.getName());
+        assertEquals(surname, foundedEmployee.getSurname());
+
+        Collection<Employee> employeeCollection = employeeService.getEmployeeMap();
+        assertTrue(employeeCollection.contains(addedEmployee));
+
+        //попытка найти несуществующего сотрудника
+        assertThrows(EmployeeNotFoundException.class, () -> employeeService.findEmployee("Frodo", "Baggins"));
+    }
 }
 
