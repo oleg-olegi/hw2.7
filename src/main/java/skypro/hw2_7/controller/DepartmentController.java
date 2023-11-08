@@ -1,6 +1,5 @@
 package skypro.hw2_7.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import skypro.hw2_7.sevice.DepartmentService;
 import skypro.hw2_7.sevice.Employee;

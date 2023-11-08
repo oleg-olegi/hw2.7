@@ -3,6 +3,7 @@ package skypro.hw2_7.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import skypro.hw2_7.exceptions.EmployeeAlreadyAddedException;
+import skypro.hw2_7.exceptions.EmployeeNotFoundException;
 import skypro.hw2_7.exceptions.MaximumEmployeesException;
 import skypro.hw2_7.sevice.Employee;
 import skypro.hw2_7.sevice.EmployeeServiceImpl;
@@ -52,15 +53,39 @@ public class EmployeeServiceImplTest {
     @Test
     void testAddMaxEmployees() {
         for (int i = 0; i < EmployeeServiceImpl.MAX_EMPLOYEES; i++) {
-            String name = "Klava" + ((char)(97+i));
-            String surname = "Koka" + ((char)(97+i));
+            String name = "Klava" + ((char) (97 + i));
+            String surname = "Koka" + ((char) (97 + i));
             int salary = 1000 + i;
             int department = 1 + i;
 //добавляем максимальное количество сотрудников
             employeeService.addEmployee(name, surname, salary, department);
 //добавляем еще одного сотрудника
-                    }
+        }
         assertThrows(MaximumEmployeesException.class, () ->
                 employeeService.addEmployee("Fiodor", "Koniuhov", 2, 1));
     }
+
+    @Test
+    void testRemoveEmployee() {
+        String name = "Klava";
+        String surname = "Koka";
+        int salary = 1000;
+        int department = 1;
+        Employee addedEmployee = employeeService.addEmployee(name, surname, salary, department);
+        Employee deletedEmployee = employeeService.removeEmployee(name, surname);
+
+        assertNotNull(deletedEmployee);
+        assertEquals(name, deletedEmployee.getName());
+        assertEquals(surname, deletedEmployee.getSurname());
+
+        //проверка что сотрудника больше нет в коллекции
+        Collection<Employee> employeeCollection = employeeService.getEmployeeMap();
+        assertFalse(employeeCollection.contains(addedEmployee));
+//поиск удаленного сотрудника
+        assertThrows(EmployeeNotFoundException.class, () -> employeeService.findEmployee(name, surname));
+//попытка удалить несуществующего сотрудника
+        assertThrows(EmployeeNotFoundException.class, () ->
+                employeeService.removeEmployee("James", "Hatfield"));
+    }
 }
+

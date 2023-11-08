@@ -24,6 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return this.employeeMap.values();
     }
 //не понимаю почему в закомментированном коде ошибка на макс количество не выбрасывается
+    //а выбрасывается throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует")
     /*  @Override
       public Employee addEmployee(String name, String surname, int salary, int department) {
           isCorrectInput(name, surname);
