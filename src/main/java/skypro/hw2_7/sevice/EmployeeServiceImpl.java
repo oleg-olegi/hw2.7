@@ -23,7 +23,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Collection<Employee> getEmployeeMap() {
         return this.employeeMap.values();
     }
-//не понимаю почему в закомментированном коде ошибка на макс количество не выбрасывается
+
+    //не понимаю почему в закомментированном коде ошибка на макс количество не выбрасывается
     //а выбрасывается throw new EmployeeAlreadyAddedException("Такой сотрудник уже существует")
     /*  @Override
       public Employee addEmployee(String name, String surname, int salary, int department) {
@@ -73,9 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new Employee(name, surname);
     }
 
-    private void isCorrectInput(String name, String surname) { //почему когда случается ошибка со статусом 400 в
-        // консоли среды разработки нет моего сообщения,
-        // которое я указал в параметрах исключения
+    private void isCorrectInput(String name, String surname) {
         if (!StringUtils.isAlpha(name + surname)) {
             throw new NotValidCharacterException("Недопустимые символы в имени или фамилии");
         }

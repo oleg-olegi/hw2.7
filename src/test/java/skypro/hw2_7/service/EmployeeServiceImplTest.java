@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import skypro.hw2_7.exceptions.EmployeeAlreadyAddedException;
 import skypro.hw2_7.exceptions.EmployeeNotFoundException;
 import skypro.hw2_7.exceptions.MaximumEmployeesException;
+import skypro.hw2_7.exceptions.NotValidCharacterException;
 import skypro.hw2_7.sevice.Employee;
 import skypro.hw2_7.sevice.EmployeeServiceImpl;
 
@@ -107,6 +108,16 @@ public class EmployeeServiceImplTest {
 
         //попытка найти несуществующего сотрудника
         assertThrows(EmployeeNotFoundException.class, () -> employeeService.findEmployee("Frodo", "Baggins"));
+    }
+
+    @Test
+    void inputValidationTest() {
+
+        String invalidName = "4otkii$%^";
+        String invalidSurname = "Ne ochen";
+
+        assertThrows(NotValidCharacterException.class, () ->
+                employeeService.findEmployee(invalidName, invalidSurname));
     }
 }
 
