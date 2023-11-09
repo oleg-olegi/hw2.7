@@ -45,6 +45,12 @@ public class DepartmentServiceImplTest {
         assertNotNull(result);
 
         assertEquals(200, result.getSalary());
+
+        Employee result1 = out.findMinSalaryByDepartment(2);
+
+        assertNotNull(result);
+
+        assertEquals(400, result1.getSalary());
     }
     @Test
     void testFindMinSalaryByDepartmentNoEmployee() {
@@ -52,7 +58,31 @@ public class DepartmentServiceImplTest {
 
         when(employeeServiceMock.getEmployeeMap()).thenReturn(employeeList);
 
+        assertThrows(NoSuchElementException.class, () -> out.findMinSalaryByDepartment(1));
+    }
+    @Test
+    void willReturnEmployeeWithMaxSalaryByDepartment() {
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(new Employee("Ivan", "Dorn", 200, 1));
+        employeeList.add(new Employee("Ivan", "Groznii", 300, 1));
+        employeeList.add(new Employee("Ivan", "Urgant", 400, 2));
+
+        when(employeeServiceMock.getEmployeeMap()).thenReturn(employeeList);
+
+        Employee result = out.findMaxSalaryByDepartment(1);
+
+        assertNotNull(result);
+
+        assertEquals(300, result.getSalary());
+    }
+    @Test
+    void testFindMaxSalaryByDepartmentNoEmployee() {
+        List<Employee> employeeList = new ArrayList<>();
+
+        when(employeeServiceMock.getEmployeeMap()).thenReturn(employeeList);
+
         assertThrows(NoSuchElementException.class, () -> out.findMaxSalaryByDepartment(1));
     }
+
 
 }
