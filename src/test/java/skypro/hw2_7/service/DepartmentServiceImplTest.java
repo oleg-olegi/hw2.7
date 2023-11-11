@@ -3,12 +3,17 @@ package skypro.hw2_7.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import skypro.hw2_7.sevice.DepartmentServiceImpl;
 import skypro.hw2_7.sevice.Employee;
+import skypro.hw2_7.sevice.EmployeeService;
 import skypro.hw2_7.sevice.EmployeeServiceImpl;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -17,7 +22,7 @@ import static org.mockito.Mockito.*;
 public class DepartmentServiceImplTest {
     //==@Mock
     // private EmployeeServiceImpl employeeServiceMock;
-    private final EmployeeServiceImpl employeeServiceMock = mock(EmployeeServiceImpl.class);
+    private final EmployeeService employeeServiceMock = mock(EmployeeService.class);
     private DepartmentServiceImpl out;
 
     @BeforeEach
@@ -27,12 +32,18 @@ public class DepartmentServiceImplTest {
         out = new DepartmentServiceImpl(employeeServiceMock);
     }
 
-    @Test
-    void willReturnEmployeeWithMinSalaryByDepartment() {
-        List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee("Ivan", "Dorn", 200, 1));
-        employeeList.add(new Employee("Ivan", "Groznii", 300, 1));
-        employeeList.add(new Employee("Ivan", "Urgant", 400, 2));
+    static Stream<Arguments> createEmployees() {
+        Employee employee1 = new Employee("Ivan", "Dorn", 200, 1);
+        Employee employee2 = new Employee("Ivan", "Groznii", 300, 1);
+        Employee employee3 = new Employee("Ivan", "Urgant", 400, 2);
+        Employee employee4 = new Employee("Ivan", "Durak", 500, 3);
+        return Stream.of(Arguments.of(employee1, employee2, employee3, employee4));
+    }
+
+    @ParameterizedTest //позитивный кейс
+    @MethodSource("createEmployees")
+    void willReturnEmployeeWithMinSalaryByDepartment(Employee employee1, Employee employee2, Employee employee3, Employee employee4) {
+        List<Employee> employeeList = List.of(employee1, employee2, employee3, employee4);
 
         when(employeeServiceMock.getEmployeeMap()).thenReturn(employeeList);
 
@@ -44,12 +55,13 @@ public class DepartmentServiceImplTest {
 
         Employee result1 = out.findMinSalaryByDepartment(2);
 
-        assertNotNull(result);
+        assertNotNull(result1);
 
         assertEquals(400, result1.getSalary());
     }
 
     @Test
+        //негативный куйс когда список пустой
     void testFindMinSalaryByDepartmentNoEmployee() {
         List<Employee> employeeList = new ArrayList<>();
 
@@ -58,12 +70,10 @@ public class DepartmentServiceImplTest {
         assertThrows(NoSuchElementException.class, () -> out.findMinSalaryByDepartment(1));
     }
 
-    @Test
-    void willReturnEmployeeWithMaxSalaryByDepartment() {
-        List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee("Ivan", "Dorn", 200, 1));
-        employeeList.add(new Employee("Ivan", "Groznii", 300, 1));
-        employeeList.add(new Employee("Ivan", "Urgant", 400, 2));
+    @ParameterizedTest
+    @MethodSource("createEmployees")
+    void willReturnEmployeeWithMaxSalaryByDepartment(Employee employee1, Employee employee2, Employee employee3, Employee employee4) {
+        List<Employee> employeeList = List.of(employee1, employee2, employee3, employee4);
 
         when(employeeServiceMock.getEmployeeMap()).thenReturn(employeeList);
 
@@ -75,6 +85,7 @@ public class DepartmentServiceImplTest {
     }
 
     @Test
+//negative case
     void testFindMaxSalaryByDepartmentNoEmployee() {
         List<Employee> employeeList = new ArrayList<>();
 
@@ -83,12 +94,10 @@ public class DepartmentServiceImplTest {
         assertThrows(NoSuchElementException.class, () -> out.findMaxSalaryByDepartment(1));
     }
 
-    @Test
-    void testFindSumSalaryByDepartment() {
-        List<Employee> employeeList = new ArrayList<>();
-        employeeList.add(new Employee("Ivan", "Dorn", 200, 1));
-        employeeList.add(new Employee("Ivan", "Groznii", 300, 1));
-        employeeList.add(new Employee("Ivan", "Urgant", 400, 2));
+    @ParameterizedTest
+    @MethodSource("createEmployees")
+    void testFindSumSalaryByDepartment(Employee employee1, Employee employee2, Employee employee3, Employee employee4) {
+        List<Employee> employeeList = List.of(employee1, employee2, employee3, employee4);
 
         when(employeeServiceMock.getEmployeeMap()).thenReturn(employeeList);
 
@@ -97,13 +106,11 @@ public class DepartmentServiceImplTest {
         assertEquals(500, result);
     }
 
-    @Test
-    void testGetAllEmployeesByDepartment() {
+    @ParameterizedTest
+    @MethodSource("createEmployees")
+    void testGetAllEmployeesByDepartment(Employee employee1, Employee employee2, Employee employee3, Employee employee4) {
+        List<Employee> employeeList = List.of(employee1, employee2);
         int department = 1;
-        Employee employee1 = new Employee("Ivan", "Dorn", 200, department);
-        Employee employee2 = new Employee("Ivan", "Groznii", 300, department);
-
-        List<Employee> employeeList = Arrays.asList(employee1, employee2);
 
         when(employeeServiceMock.getEmployeeMap()).thenReturn(employeeList);
 
@@ -114,17 +121,16 @@ public class DepartmentServiceImplTest {
         //очень сложно было написать тест для этого метода
     }
 
-    @Test
-    void testGetAllEmployees() {
-        Employee employee1 = new Employee("Ivan", "Dorn", 200, 1);
-        Employee employee2 = new Employee("Ivan", "Groznii", 300, 2);
-        Employee employee3 = new Employee("Ivan", "Urgant", 400, 3);
+    @ParameterizedTest
+    @MethodSource("createEmployees")
+    void testGetAllEmployees(Employee employee1, Employee employee2, Employee employee3, Employee employee4) {
 
-        when(employeeServiceMock.getEmployeeMap()).thenReturn(Arrays.asList(employee1, employee2, employee3));
+        when(employeeServiceMock.getEmployeeMap()).thenReturn(Arrays.asList(employee1, employee2, employee3, employee4));
 
-        List<Employee> expectedList1 = Arrays.asList(employee1);
-        List<Employee> expectedList2 = Arrays.asList(employee2);
-        List<Employee> expectedList3 = Arrays.asList(employee3);
+        List<Employee> expectedList1 = Arrays.asList(employee1,employee2);
+        List<Employee> expectedList2 = Arrays.asList(employee3);
+        List<Employee> expectedList3 = Arrays.asList(employee4);
+
 
         Map<Integer, List<Employee>> resultList = out.getAllEmployees();
         Map<Integer, List<Employee>> expectedResultList = Map.of(1, expectedList1, 2, expectedList2, 3, expectedList3);

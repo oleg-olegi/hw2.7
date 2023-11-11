@@ -2,6 +2,9 @@ package skypro.hw2_7.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import skypro.hw2_7.exceptions.EmployeeAlreadyAddedException;
 import skypro.hw2_7.exceptions.EmployeeNotFoundException;
 import skypro.hw2_7.exceptions.MaximumEmployeesException;
@@ -10,6 +13,7 @@ import skypro.hw2_7.sevice.Employee;
 import skypro.hw2_7.sevice.EmployeeServiceImpl;
 
 import java.util.Collection;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,12 +25,15 @@ public class EmployeeServiceImplTest {
         employeeService = new EmployeeServiceImpl();
     }
 
-    @Test
-    void testAddEmployee() {
-        String name = "Klava";
-        String surname = "Koka";
-        int salary = 1000;
-        int department = 1;
+    static Stream<Arguments> arguments() {
+        return Stream.of(Arguments.of("Klava", "Koka", 1000, 1),
+                Arguments.of("John", "Doe", 2000, 2),
+                Arguments.of("Jane", "Smith", 1500, 1));
+    }
+
+    @ParameterizedTest
+    @MethodSource("arguments")
+    void testAddEmployee(String name, String surname, int salary, int department) {
         Employee addedEmployee = employeeService.addEmployee(name, surname, salary, department);
         assertNotNull(addedEmployee);
         assertEquals(name, addedEmployee.getName());
@@ -39,12 +46,10 @@ public class EmployeeServiceImplTest {
         assertTrue(collections.contains(addedEmployee));
     }
 
-    @Test
-    void testAddDuplicateEmployee() {
-        String name = "Klava";
-        String surname = "Koka";
-        int salary = 1000;
-        int department = 1;
+    @ParameterizedTest
+    @MethodSource("arguments")
+    void testAddDuplicateEmployee(String name, String surname, int salary, int department) {
+
         //первый вызов метода
         Employee addedEmployee = employeeService.addEmployee(name, surname, salary, department);
         //второй вызов метода с теми же данными
@@ -66,12 +71,10 @@ public class EmployeeServiceImplTest {
                 employeeService.addEmployee("Fiodor", "Koniuhov", 2, 1));
     }
 
-    @Test
-    void testRemoveEmployee() {
-        String name = "Klava";
-        String surname = "Koka";
-        int salary = 1000;
-        int department = 1;
+    @ParameterizedTest
+    @MethodSource("arguments")
+    void testRemoveEmployee(String name, String surname, int salary, int department) {
+
         Employee addedEmployee = employeeService.addEmployee(name, surname, salary, department);
         Employee deletedEmployee = employeeService.removeEmployee(name, surname);
 
@@ -89,12 +92,9 @@ public class EmployeeServiceImplTest {
                 employeeService.removeEmployee("James", "Hatfield"));
     }
 
-    @Test
-    void testFindEmployee() {
-        String name = "Bill";
-        String surname = "Chipper";
-        int salary = 100500;
-        int department = 13;
+    @ParameterizedTest
+    @MethodSource("arguments")
+    void testFindEmployee(String name, String surname, int salary, int department) {
 
         Employee addedEmployee = employeeService.addEmployee(name, surname, salary, department);
         Employee foundedEmployee = employeeService.findEmployee(name, surname);
