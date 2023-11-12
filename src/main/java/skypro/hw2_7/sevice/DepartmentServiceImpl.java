@@ -1,6 +1,5 @@
 package skypro.hw2_7.sevice;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -10,7 +9,6 @@ import java.util.stream.Collectors;
 public class DepartmentServiceImpl implements DepartmentService {
     private final EmployeeService employeeService;
 
-    @Autowired
     public DepartmentServiceImpl(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }

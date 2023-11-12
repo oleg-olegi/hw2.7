@@ -16,13 +16,12 @@ import java.util.Collection;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    @Autowired //!!!!нужна ли здесь аннотация, если мы инжектим депенденсы через конструктор
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/add")
+    @GetMapping(value = "/add", produces = "application/json")
     public Employee addEmployee(@RequestParam String name, @RequestParam String surname, @RequestParam int salary,
                                 @RequestParam int department) {
         return employeeService.addEmployee(name, surname, salary, department);
