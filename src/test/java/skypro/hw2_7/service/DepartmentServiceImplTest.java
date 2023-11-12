@@ -58,6 +58,7 @@ public class DepartmentServiceImplTest {
         assertNotNull(result1);
 
         assertEquals(400, result1.getSalary());
+        verify(employeeServiceMock, atLeast(1)).getEmployeeMap();//экспериментально проверка вызова метода мока(минимум 1 раз)
     }
 
     @Test
@@ -127,7 +128,7 @@ public class DepartmentServiceImplTest {
 
         when(employeeServiceMock.getEmployeeMap()).thenReturn(Arrays.asList(employee1, employee2, employee3, employee4));
 
-        List<Employee> expectedList1 = Arrays.asList(employee1,employee2);
+        List<Employee> expectedList1 = Arrays.asList(employee1, employee2);
         List<Employee> expectedList2 = Arrays.asList(employee3);
         List<Employee> expectedList3 = Arrays.asList(employee4);
 
